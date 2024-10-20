@@ -1,8 +1,11 @@
 import path from "path";
-import { Configuration, HotModuleReplacementPlugin } from "webpack";
+import { HotModuleReplacementPlugin } from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import ESLintPlugin from "eslint-webpack-plugin";
+import { Configuration } from "webpack";
+import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
+// this has to be imported otherwise Configuration does not recognize devServer
 
 const config: Configuration = {
   mode: "development",
@@ -28,7 +31,10 @@ const config: Configuration = {
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: [
+          "style-loader",
+          "css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]",
+        ],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
