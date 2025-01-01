@@ -4,6 +4,8 @@ import "./index.css";
 import * as heading from "./heading.module.css";
 import * as content from "./content.module.css";
 import car from "./car.jpg";
+import trans from "src/locales/translations.en.json";
+const t = 3;
 const App = () => (
   <>
     <Heading />
@@ -12,7 +14,7 @@ const App = () => (
 );
 
 const Heading = () => (
-  <h1 className={heading.heading}>My React and TypeScript App</h1>
+  <h1 className={heading.heading}>My React and TypeScript App {trans.title}</h1>
 );
 
 const Content = () => (

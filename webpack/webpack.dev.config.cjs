@@ -1,13 +1,14 @@
-import path from "path";
-import { HotModuleReplacementPlugin } from "webpack";
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
-import ESLintPlugin from "eslint-webpack-plugin";
-import { Configuration } from "webpack";
-import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
-// this has to be imported otherwise Configuration does not recognize devServer
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const ESLintPlugin = require("eslint-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const config: Configuration = {
+const { HotModuleReplacementPlugin } = require("webpack");
+
+const projectRoot = path.resolve(__dirname, ".");
+module.exports = {
   mode: "development",
   output: {
     publicPath: "/",
@@ -43,13 +44,16 @@ const config: Configuration = {
         ],
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        test: /\.(webp|png|svg|jpg|jpeg|gif)$/i,
         type: "asset/resource",
       },
     ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: [".ts", ".tsx", ".js", ".json"],
+    alias: {
+      src: path.resolve(projectRoot, "../src"),
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -61,6 +65,9 @@ const config: Configuration = {
     }),
     new ESLintPlugin({
       extensions: ["js", "jsx", "ts", "tsx"],
+      context: process.cwd(),
+      overrideConfigFile: path.resolve(__dirname, "../eslint.config.js"), // Explicitly use this file
+      resolvePluginsRelativeTo: __dirname, // Ensures correct resolution
     }),
   ],
   devtool: "inline-source-map",
@@ -72,5 +79,3 @@ const config: Configuration = {
     hot: true,
   },
 };
-
-export default config;
