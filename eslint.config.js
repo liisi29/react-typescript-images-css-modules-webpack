@@ -19,7 +19,7 @@ export default tseslint.config(
       "react-hooks/exhaustive-deps": "warn",
       "react/prop-types": "off",
       "@typescript-eslint/no-unused-vars": "warn",
-      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/no-require-imports": "warn",
     },
 
